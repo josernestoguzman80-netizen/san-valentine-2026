@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>San Valentín 💜</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Great+Vibes&display=swap" rel="stylesheet">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<style>
+body{
+margin:0;
+font-family:'Playfair Display',serif;
+background:linear-gradient(135deg,#f3d9ff,#ffe6f2);
+overflow-x:hidden;
+}
+
+.revista{
+max-width:420px;
+margin:auto;
+background:#ffe9f6;
+padding:18px;
+border-radius:20px;
+box-shadow:0 0 25px rgba(0,0,0,.15);
+}
+
+.header{
+text-align:center;
+font-size:30px;
+font-family:'Great Vibes',cursive;
+}
+
+.titulo{
+text-align:center;
+font-size:38px;
+font-family:'Great Vibes',cursive;
+margin:12px 0;
+}
+
+.sub{
+font-weight:700;
+margin-top:10px;
+}
+
+.contenido{
+font-size:15px;
+text-align:justify;
+}
+
+img{
+width:100%;
+border-radius:14px;
+margin:12px 0;
+}
+
+textarea,input{
+width:100%;
+border-radius:12px;
+padding:10px;
+border:none;
+margin-top:6px;
+font-family:inherit;
+}
+
+button{
+width:100%;
+padding:12px;
+border-radius:14px;
+border:none;
+background:#d946ef;
+color:white;
+font-size:16px;
+margin-top:10px;
+cursor:pointer;
+}
+
+.opciones button{
+background:#f472b6;
+}
+
+.final{
+text-align:center;
+font-size:28px;
+margin-top:15px;
+display:none;
+font-family:'Great Vibes',cursive;
+}
+
+.corazon{
+position:fixed;
+color:#ff4fd8;
+font-size:18px;
+animation:caer linear infinite;
+}
+
+@keyframes caer{
+0%{transform:translateY(-10vh);opacity:1;}
+100%{transform:translateY(110vh);opacity:0;}
+}
+</style>
+</head>
+
+<body>
+
+<audio id="musica" autoplay loop>
+<source src="https://cdn.pixabay.com/audio/2022/03/09/audio_9fe62fa4c5.mp3">
+</audio>
+
+<div class="revista" id="carta">
+
+<div class="header">San Valentín News 💌</div>
+
+<div class="titulo">Will you be my Valentine?</div>
+
+<label>Para:</label>
+<input placeholder="Su nombre 💜">
+
+<label class="sub">¡TE HAN ELEGIDO!</label>
+
+<input type="file" accept="image/*" onchange="preview(event)">
+<img id="foto">
+
+<p class="contenido">
+Después de una exhaustiva búsqueda entre millones de personas, hemos encontrado a la persona perfecta para celebrar el 14 de febrero: <b>TÚ</b>.  
+Según fuentes cercanas (mi corazón), eres la persona ideal para vivir un San Valentín lleno de amor, risas y momentos inolvidables.
+</p>
+
+<label class="sub">5 razones por las que eres mi elección perfecta:</label>
+<textarea rows="5">
+1. Tu sonrisa ilumina mi mundo
+2. Me haces sentir en casa
+3. Eres mi lugar seguro
+4. Me haces feliz todos los días
+5. Te amo infinitamente
+</textarea>
+
+<label class="sub">¿Aceptas la misión de ser mi San Valentín?</label>
+
+<div class="opciones">
+<button onclick="final()">💜 Sí</button>
+<button onclick="final()">😍 Obvio</button>
+<button onclick="final()">🥰 ¿Cómo negarme a eso, guapo?</button>
+</div>
+
+<button onclick="exportar()">📄 Exportar PDF</button>
+
+<div class="final" id="final">💖 ELLA DIJO QUE SÍ 💖<br>Feliz San Valentín 😍</div>
+
+</div>
+
+<script>
+function preview(e){
+document.getElementById("foto").src=URL.createObjectURL(e.target.files[0]);
+}
+
+function exportar(){
+html2canvas(document.getElementById("carta")).then(canvas=>{
+const img=canvas.toDataURL("image/png");
+const pdf=new jspdf.jsPDF("p","mm","a4");
+const w=pdf.internal.pageSize.getWidth();
+const h=canvas.height*w/canvas.width;
+pdf.addImage(img,"PNG",0,0,w,h);
+pdf.save("San_Valentin.pdf");
+});
+}
+
+function final(){
+document.getElementById("final").style.display="block";
+for(let i=0;i<30;i++){
+let c=document.createElement("div");
+c.innerHTML="💜";
+c.className="corazon";
+c.style.left=Math.random()*100+"vw";
+c.style.animationDuration=3+Math.random()*5+"s";
+document.body.appendChild(c);
+setTimeout(()=>c.remove(),8000);
+}
+}
+</script>
+
+</body>
+</html>
